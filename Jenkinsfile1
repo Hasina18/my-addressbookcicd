@@ -1,0 +1,28 @@
+pipeline {
+  agent any 
+  environment {
+     APP_NODE = ""
+     SSH_KEY =""
+}
+ stages {
+    stage('Checkout Code') {
+        steps {
+            git branch: 'main', url: 'ttps://github.com/Hasina18/my-addressbookcicd-project.git'
+       }
+  }
+   stage('Build with Maven')
+      steps {
+          sh 'mvn clean package'
+     }
+}
+stage('Deploy with Ansible') {
+   steps {
+     sh """
+     ansible-playbook -i ${APP_NODE}, ansible/deploy_tomact.yml \ --private-key ${SSH-KEY} --user ubuntu
+     """
+      }
+     }
+   }
+}
+
+
